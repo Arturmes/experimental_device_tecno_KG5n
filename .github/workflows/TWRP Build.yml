@@ -14,11 +14,11 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/RadGoodNowYT/android_device_tecno_KG5n'
+        default: 'https://github.com/Arturmes/experimental_device_tecno_KG5n'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'main'
+        default: 'test'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
@@ -108,7 +108,7 @@ jobs:
           
     - name: Repo Sync
       run: |
-        repo sync -j$(nproc --all) --force-sync
+        repo sync -j$(nproc --all) --force-sync --no-tags
       working-directory: workspace
       
     - name: Clone device tree
