@@ -4,13 +4,16 @@ ro.treble.enabled=true
 ro.boot.dynamic_partitions=true
 ro.product.board=KG5n
 ro.board.platform=ums9230
-ro.sys.usb.storage.type=adb,mtp
+ro.sys.usb.storage.type=mtp,adb
 ro.sf.lcd_density=320
 
 # FRP property for pst device
 ro.frp.pst=/dev/block/by-name/persist
 
 # Crypto
+ro.crypto.type=file
+ro.crypto.metadata.enabled=true
+ro.crypto.uses_fs_ioc_add_encryption_key=true
 fbe.metadata.wrappedkey=true
 vendor.gatekeeper.disable_spu=true
 ro.crypto.volume.filenames_mode=aes-256-cts
