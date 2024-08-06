@@ -6,6 +6,7 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 ALLOW_MISSING_DEPENDENCIES := true
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
 
 # ARCH
 TARGET_ARCH := arm64
@@ -138,7 +139,21 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/ashmemd_aidl_interface-cpp.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libashmemd_client.so
-	
+
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libcap \
+    libion \
+    libxml2
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so
+
+# Additional Libraries
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libandroidicu
+    $(OUT_DIR)/target/product/$(PRODUCT_DEVICE)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
+
 # VERSION
 TW_DEVICE_VERSION := RadGoodNow@4pda and artumes@4pda
 
@@ -159,10 +174,7 @@ TW_USE_TOOLBOX := true
 
 # crypto
 TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
-BOARD_USES_QCOM_DECRYPTION := true
-BOARD_USES_QCOM_FBE_DECRYPTION := true
+TW_USE_FSCRYPT_POLICY := 1
 
 # Recovery configuration
 BOARD_USES_RECOVERY_AS_BOOT := true

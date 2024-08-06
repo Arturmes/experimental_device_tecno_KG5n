@@ -46,5 +46,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
     bootctrl
 
+# f2fs utilities
+PRODUCT_PACKAGES += \
+    sg_write_buffer \
+    f2fs_io \
+    check_f2fs
+
+# Userdata checkpoint
+PRODUCT_PACKAGES += \
+    checkpoint_gc
+
 # Hidl Service
 PRODUCT_ENFORCE_VINTF_MANIFEST := true
