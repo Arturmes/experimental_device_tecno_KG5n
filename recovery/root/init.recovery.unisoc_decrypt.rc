@@ -8,7 +8,7 @@ service keystore_auth /system/bin/keystore_auth
     disabled
     seclabel u:r:recovery:s0
 
-service keystore /system/bin/keystore /tmp/misc/keystore
+service keystore /system/bin/keystore /data/misc/keystore
     user root
     group root drmrpc readproc log
     disabled
@@ -32,6 +32,7 @@ on property:ro.crypto.state=unencrypted
     stop hwservicemanager
 
 on property:twrp.decrypt.done=true
+    setprop vold.post_fs_data_done 1
     stop vendor.unisoc.keymaster-4-1
     stop vendor.gatekeeper-1-0
     stop servicemanager

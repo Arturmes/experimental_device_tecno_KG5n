@@ -2,13 +2,13 @@
 import /init.recovery.common.rc
 import /init.recovery.unisoc_decrypt.rc
 
-service vendor.rpmbproxy /vendor/bin/sprdstorageproxyd -f rpmb -d /dev/trusty-ipc-dev0 -p /data/vendor/sprd_ss -r /dev/mmcblk0rpmb
+service vendor.rpmbproxy /vendor/bin/sprdstorageproxyd -f rpmb -d /dev/trusty-ipc-dev0 -p /data/vendor/sprd_ss -r /mnt/vendor/productinfo/v_rpmb.txt
     class core
     group system
     oneshot
     seclabel u:r:recovery:s0
 
-service vendor.nsproxy /vendor/bin/sprdstorageproxyd -f ns -d /dev/trusty-ipc-dev0 -p /data/vendor/sprd_ss -r /dev/mmcblk0rpmb
+service vendor.nsproxy /vendor/bin/sprdstorageproxyd -f ns -d /dev/trusty-ipc-dev0 -p /data/vendor/sprd_ss -r /mnt/vendor/productinfo/v_rpmb.txt
     class late_start
     group system
     seclabel u:r:recovery:s0
@@ -42,7 +42,7 @@ on init
     setprop persist.sys.usb.config mtp,adb
 
 # Mix device-specific information into the entropy pool
-    copy /proc/cmdline /dev/urandom
+    copy /proc/config.gz /dev/urandom
 
 # We need vold early for metadata encryption
 on early-fs
@@ -53,10 +53,8 @@ on fs
     insmod /socko/mali_kbase.ko
     insmod /socko/adaptive-ts.ko
 
-on post-fs
-    mkdir /data/vendor/sprd_ss 0770 system system
-
 on property:vendor.sprd.storageproxyd.enabled=1
+    mkdir /data/vendor
     mkdir /data/vendor/sprd_ss 0770 system system
     start vendor.rpmbproxy
     start vendor.nsproxy

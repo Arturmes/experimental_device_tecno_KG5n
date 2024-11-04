@@ -149,6 +149,9 @@ on post-fs-data
     restorecon /data
     mkdir /data/misc 01771 system misc
 
+    mkdir /data/vendor
+    mkdir /data/vendor/sprd_ss 0770 system system
+
     chmod 666 /sys/module/shub_core/parameters/gryo_firms
     chmod 666 /sys/module/shub_core/parameters/acc_firms
     chmod 666 /sys/module/shub_core/parameters/mag_firms
