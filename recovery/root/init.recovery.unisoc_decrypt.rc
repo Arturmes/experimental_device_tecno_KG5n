@@ -1,0 +1,38 @@
+import /vendor/etc/init/android.hardware.gatekeeper@1.0-service.trusty.rc
+import /vendor/etc/init/android.hardware.keymaster@4.1-unisoc.service.rc
+
+service keystore_auth /system/bin/keystore_auth
+    oneshot
+    user system
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service keystore /system/bin/keystore /tmp/misc/keystore
+    user root
+    group root drmrpc readproc log
+    disabled
+    seclabel u:r:recovery:s0
+
+on property:hwservicemanager.ready=true
+    start vendor.gatekeeper-1-0
+    start vendor.unisoc.keymaster-4-1
+    setprop vendor.sprd.storageproxyd.enabled 1
+
+on property:ro.crypto.state=unsupported
+    stop vendor.unisoc.keymaster-4-1
+    stop vendor.gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
+
+on property:ro.crypto.state=unencrypted
+    stop vendor.unisoc.keymaster-4-1
+    stop vendor.gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
+
+on property:twrp.decrypt.done=true
+    stop vendor.unisoc.keymaster-4-1
+    stop vendor.gatekeeper-1-0
+    stop servicemanager
+    stop hwservicemanager
