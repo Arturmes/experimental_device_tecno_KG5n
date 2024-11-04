@@ -1,10 +1,14 @@
 LOCAL_PATH := device/tecno/KG5n
+PRODUCT_PLATFORM := ums9230
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true
+
+# Hidl Service
+PRODUCT_ENFORCE_VINTF_MANIFEST := true
 
 # DYNAMIC PARTITIONS
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -14,8 +18,6 @@ PRODUCT_TARGET_VNDK_VERSION := 30
 
 # API
 PRODUCT_SHIPPING_API_LEVEL := 30
-
-PRODUCT_PLATFORM := ums9230
 
 # Enable virtual A/B OTA
 ENABLE_VIRTUAL_AB := true
@@ -40,13 +42,10 @@ PRODUCT_PACKAGES += \
     update_engine_sideload
 
 PRODUCT_PACKAGES += \
-    android.hardware.fastboot@1.0-impl-mock \
-    fastbootd
+    fastbootd \
+    android.hardware.fastboot@1.0-impl-mock
 
 PRODUCT_PACKAGES_DEBUG += \
-    bootctrl.ums9230 \
-    bootctrl.ums9230.recovery \
+    bootctrl.$(PRODUCT_PLATFORM) \
+    bootctrl.$(PRODUCT_PLATFORM).recovery \
     bootctrl
-
-# Hidl Service
-PRODUCT_ENFORCE_VINTF_MANIFEST := true
